@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar"
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Pressable } from "react-native";
-import {StyleSheet,Text,View,Image,TextInput,Button,TouchableOpacity} from "react-native";
-//import { validateEmail } from './helpers/validation';
+import {StyleSheet,Text,View,Image,TextInput,Button, Alert} from "react-native";
+import {getAuth, sendPasswordResetEmail} from "firebase/auth";
 
 export const validateEmail = (email) => {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -14,6 +15,27 @@ export default function Login({ navigation }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredentials) => {
+        // Signed in 
+        const user = userCredentials.user;
+        navigation.navigate("FirstPage");
+        // ...
+      })
+      .catch(error => alert(error.message))
+  }
+
+  const forgotpassword = () => {
+    auth = getAuth();    
+    sendPasswordResetEmail(auth,email)
+    .then(() => {    
+      Alert.alert('Slaptažodžio atnaujinimas','Slaptažodžio atnaujinimas išsiųstas nurodytu elektroniniu paštu');
+    })
+    .catch(error => alert(error.message))
+  }
 
   return (
 
@@ -44,19 +66,10 @@ export default function Login({ navigation }) {
         />
 
       </View>
-      <TouchableOpacity>
+      <Pressable onPress={forgotpassword}>
         <Text style={styles.forgot_button}>Pamiršai slaptažodį?</Text>
-      </TouchableOpacity>
-      <Pressable style={styles.loginBtn}
-        onPress={() => {
-          if (!validateEmail(email)) {
-            alert("Please enter a valid email address");
-          } else if (password.length < 6) {
-            alert("Password must be at least 6 characters long");
-          } else {
-            navigation.navigate("FirstPage");
-          }
-        }}>
+      </Pressable>
+      <Pressable style={styles.loginBtn} onPress={handleLogin}>
         <Text style= {styles.btntext}>Prisijungti</Text>
         </Pressable>
     </View>
