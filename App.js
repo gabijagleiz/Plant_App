@@ -7,6 +7,7 @@ import Login from './Login';
 import FirstPage from './FirstPage';
 import WelcomeScreen from './WelcomeScreen';
 import SignIn from './SignIn';
+import { firebase } from './firebase';
 
 
 
