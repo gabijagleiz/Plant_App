@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar"
 import React, { useState } from "react";
 import {StyleSheet,Text,View,Image,TextInput,Button,TouchableOpacity,Pressable} from "react-native";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export const validateEmail = (email) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -14,12 +15,17 @@ export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = () => {
-    // Perform input validation here
-    // If input is valid, create a new user object and save it to the database using a web API call
-    // If input is invalid, display an error message to the user
-    // Redirect the user to the main screen after successful sign-up
-    navigation.navigate('MainScreen');
+  const handleSignUp = () => {
+    auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredentials) => {
+        // Signed in 
+        validateEmail();
+        const user = userCredentials.user;
+        navigation.navigate("FirstPage");
+        // ...
+      })
+      .catch(error => alert(error.message))
   }
 
   return (
@@ -56,16 +62,7 @@ export default function Signup({ navigation }) {
         />
       </View>
 
-      <Pressable style={styles.loginBtn}
-        onPress={() => {
-          if (!validateEmail(email)) {
-            alert("Please enter a valid email address");
-          } else if (password.length < 6) {
-            alert("Password must be at least 6 characters long");
-          } else {
-            navigation.navigate("FirstPage");
-          }
-        }}>
+      <Pressable style={styles.loginBtn} onPress={handleSignUp}>
         <Text style= {styles.btntext}>Registruotis</Text>
         </Pressable>
 
