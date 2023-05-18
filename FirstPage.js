@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView,View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
 import plantData from './plantsData/';
 
 const FirstPage = () => {
@@ -18,7 +18,7 @@ const FirstPage = () => {
       width: screenWidth / 2,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 20,
+      paddingVertical: 10,
     },
 
     row: {
@@ -27,22 +27,38 @@ const FirstPage = () => {
       justifyContent: 'space-between',
     },
 
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-
     lipstickPlantContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 20,
+      //paddingVertical: 10,
     },
 
     lipstickPlant: {
       width: 150,
       height: 150,
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    },
+
+    modalContent: {
+      backgroundColor: "#DFB79E",      
+      padding: 20,
+      borderRadius: 10,
+      maxWidth: 300,
+    },
+
+    titleText:{
+      fontSize: 20,
+      color: '#F5F5F5',
+    },
+    
+    dataText: {
+      fontSize: 15,
+      color: '#F5F5F5',
     },
   };
 
@@ -64,11 +80,11 @@ const FirstPage = () => {
             >
               <View style={styles.modalContainer}>
                 {selectedPlant && (
-                  <View>
-                    <Text>{selectedPlant.name}</Text>
-                    <Text>{selectedPlant.description}</Text>
-                    <Text>{selectedPlant.wateringInstructions}</Text>
-                    <Text>{selectedPlant.lightRequirements}</Text>
+                  <View style={styles.modalContent}>
+                    <Text style={styles.dataText}>{selectedPlant.name}</Text>
+                    <Text style={styles.dataText}>{selectedPlant.description}</Text>
+                    <Text style={styles.dataText}>{selectedPlant.wateringInstructions}</Text>
+                    <Text style={styles.dataText}>{selectedPlant.lightRequirements}</Text>
                     {/* Add more content here */}
                   </View>
                 )}
