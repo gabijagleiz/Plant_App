@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
+import { ScrollView,View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
 import plantData from './plantsData/';
 
 const FirstPage = () => {
@@ -47,35 +47,37 @@ const FirstPage = () => {
   };
 
   return (
-    <View style={styles.row}>
-      {plantData.map((plant) => (
-        <View style={styles.container} key={plant.id}>
-          <TouchableOpacity onPress={() => handleImagePress(plant)} style={styles.lipstickPlantContainer}>
-            <Image source={plant.image} style={styles.lipstickPlant} />
-            <Text>{plant.name}</Text>
-          </TouchableOpacity>
+    <ScrollView>
+      <View style={styles.row}>
+        {plantData.map((plant) => (
+          <View style={styles.container} key={plant.id}>
+            <TouchableOpacity onPress={() => handleImagePress(plant)} style={styles.lipstickPlantContainer}>
+              <Image source={plant.image} style={styles.lipstickPlant} />
+              <Text>{plant.name}</Text>
+            </TouchableOpacity>
 
-          <Modal
-            visible={modalVisible}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <View style={styles.modalContainer}>
-              {selectedPlant && (
-                <View>
-                  <Text>{selectedPlant.name}</Text>
-                  <Text>{selectedPlant.description}</Text>
-                  <Text>{selectedPlant.wateringInstructions}</Text>
-                  <Text>{selectedPlant.lightRequirements}</Text>
-                  {/* Add more content here */}
-                </View>
-              )}
-            </View>
-          </Modal>
-        </View>
-      ))}
-    </View>
+            <Modal
+              visible={modalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <View style={styles.modalContainer}>
+                {selectedPlant && (
+                  <View>
+                    <Text>{selectedPlant.name}</Text>
+                    <Text>{selectedPlant.description}</Text>
+                    <Text>{selectedPlant.wateringInstructions}</Text>
+                    <Text>{selectedPlant.lightRequirements}</Text>
+                    {/* Add more content here */}
+                  </View>
+                )}
+              </View>
+            </Modal>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
