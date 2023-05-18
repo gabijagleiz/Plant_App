@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Image, Dimensions } from 'react-native';
 import plantData from './plantsData/';
 
 const FirstPage = () => {
@@ -8,12 +8,14 @@ const FirstPage = () => {
 
   const handleImagePress = (plant) => {
     setModalVisible(!modalVisible);
-    setSelectedPlant(plant)
+    setSelectedPlant(plant);
   };
+
+  const screenWidth = Dimensions.get('window').width;
 
   const styles = {
     container: {
-      flex: 1,
+      width: screenWidth / 2,
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 20,
@@ -22,7 +24,7 @@ const FirstPage = () => {
     row: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
     },
 
     modalContainer: {
@@ -31,13 +33,13 @@ const FirstPage = () => {
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+
     lipstickPlantContainer: {
-      position: 'absolute',
-      top: 20,
-      left: 20,
-      width: '45%',
-      zIndex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 20,
     },
+
     lipstickPlant: {
       width: 150,
       height: 150,
@@ -46,13 +48,11 @@ const FirstPage = () => {
 
   return (
     <View style={styles.row}>
-      {plantData.map(plant => 
+      {plantData.map((plant) => (
         <View style={styles.container} key={plant.id}>
           <TouchableOpacity onPress={() => handleImagePress(plant)} style={styles.lipstickPlantContainer}>
-            <Image source={plant.image} style={styles.lipstickPlant}/>
+            <Image source={plant.image} style={styles.lipstickPlant} />
             <Text>{plant.name}</Text>
-            
-            {/* <Image  source={require('./assets/lipstickplant.jpg')} style={styles.lipstickPlant} /> */}
           </TouchableOpacity>
 
           <Modal
@@ -64,16 +64,17 @@ const FirstPage = () => {
             <View style={styles.modalContainer}>
               {selectedPlant && (
                 <View>
-    
                   <Text>{selectedPlant.name}</Text>
                   <Text>{selectedPlant.description}</Text>
                   <Text>{selectedPlant.wateringInstructions}</Text>
                   <Text>{selectedPlant.lightRequirements}</Text>
-                {/* Add more content here */}
-              </View>)}
+                  {/* Add more content here */}
+                </View>
+              )}
             </View>
           </Modal>
-        </View>)}
+        </View>
+      ))}
     </View>
   );
 };
